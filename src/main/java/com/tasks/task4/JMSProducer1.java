@@ -24,16 +24,16 @@ public class JMSProducer1 {
             connection=connectionFactory.createConnection();
             connection.start();
             session=connection.createSession(true,Session.AUTO_ACKNOWLEDGE);
-            destination=session.createQueue("TestQueue");
+            destination=session.createQueue("testQueue1");
             messageProducer=session.createProducer(destination);
-            for(int i=0;i<10;i++) {
+            for(int i=0;i<5;i++) {
                 sendMessage(i,session,messageProducer);
                 session.commit();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         } catch (JMSException e) {
             e.printStackTrace();
