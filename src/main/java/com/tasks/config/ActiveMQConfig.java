@@ -1,11 +1,14 @@
 package com.tasks.config;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
+import org.apache.activemq.xbean.BrokerFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
@@ -40,6 +43,14 @@ public class ActiveMQConfig {
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory(){
         return new ActiveMQConnectionFactory(userName,password,brokerUrl);
+    }
+
+    @Bean(name = "myBroker")
+    public BrokerService activeMQ()throws  Exception{
+        BrokerService broker = new BrokerService();
+        broker.addConnector("tcp://localhost:61616");
+        broker.start();
+        return broker;
     }
 
     /**
